@@ -200,15 +200,98 @@ grid* generate_maze(u32 columns, u32 rows) {
 }
 
 
+/* --- SVG Output --- */
+
+void draw_svg_maze(grid *grid, struct main_opts *opts) {
+    /* Calculate total width and height: */
+    u32 total_width = (grid->columns / 2) * opts->corridor_width;
+    u32 total_height = (grid->columns / 2) * opts->corridor_width;
+
+    /* SVG Preamble */
+    printf("<?xml version='1.0' standalone='no'?>\n");
+    printf("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 %u %u'>\n",
+           total_width, total_height);
+    printf("<g stroke-linecap='round' stroke-width='%u' stroke='%s'>\n",
+           opts->pen_radius, opts->fg_color);
+
+    u32 ypos = 0;
+    for (u32 y = 0, y_ = grid->rows; y < y_; y += 2) {
+        u32 x1 = 0;
+        u32 x2 = 0;
+        for (u32 x = 0, x_ = grid->columns; x < x_;) {
+            while (x < x_ && grid->cells[y * x_ + x]) {
+                if (x % 2 != 0) {
+                    x2 += opts->corridor_width;
+                }
+                ++x;
+            }
+
+            if (x2 > x1) {
+                printf(" <line x1='%u' y1='%u' x2='%u' y2='%u'/>\n",
+                       x1, ypos, x2, ypos);
+            }
+
+            while (x < x_ && !grid->cells[y * x_ + x]) {
+                x2 += opts->corridor_width;
+                x1 = x2;
+                ++x;
+            }
+        }
+
+        ypos += opts->corridor_width;
+    }
+
+    u32 xpos = 0;
+    for (u32 x = 0, x_ = grid->columns; x < x_; x += 2) {
+        u32 y1 = 0;
+        u32 y2 = 0;
+        for (u32 y = 0, y_ = grid->rows; y < y_;) {
+            while (y < y_ && grid->cells[y * x_ + x]) {
+                if (y % 2 != 0) {
+                    y2 += opts->corridor_width;
+                }
+                ++y;
+            }
+
+            if (y2 > y1) {
+                printf(" <line x1='%u' y1='%u' x2='%u' y2='%u'/>\n",
+                       xpos, y1, xpos, y2);
+            }
+
+            while (y < y_ && !grid->cells[y * x_ + x]) {
+                y2 += opts->corridor_width;
+                y1 = y2;
+                ++y;
+            }
+        }
+
+        xpos += opts->corridor_width;
+    }
+
+    /* SVG Close */
+    printf("</g>\n");
+    printf("</svg>\n");
+}
+
+
 /* --- PROGRAM --- */
 
 int main(void) {
     pcg32_srand(&srng, PCG32_INITSTATE);
 
-    grid *maze = generate_maze(16, 10);
+    struct main_opts opts = {
+        .columns = 16,
+        .rows = 10,
 
+        .corridor_width = 16,
+        .pen_radius = 2,
+        .fg_color = "blue",
+    };
+
+    grid *maze = generate_maze(16, 10);
     grid_print(maze, "#", " ");
 
+    draw_svg_maze(maze, &opts);
     grid_free(maze);
 
     return 0;
