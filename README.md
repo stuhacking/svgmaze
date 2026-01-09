@@ -3,6 +3,14 @@
 This program generates pseudorandom rectangular mazes and outputs the result
 as an SVG image.
 
+Example:
+
+```
+svgmaze -rexample1 -w16 -h8 -f'rgb(167,199,231)' -osvg
+```
+
+![Example Maze](example.svg)
+
 ## Usage:
 
 ```
