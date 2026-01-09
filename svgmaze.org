@@ -5,8 +5,21 @@
 
 * Notes
 
-This is a simple maze generator that outputs the result to a static SVG image.
+This is a simple maze generator that outputs the result to a static SVG
+image. It uses a recursive random walk method as a quick to implement
+algorithm. This means it's prone to stack overflow if a large maze is
+requested (>300x300).
+
+The SVG output is a series of horizontal and vertical lines reduced to only
+those cases where line length covers 1 or more cells to reduce line count.
 
 * Tasks
 
 * Issues
+
+** TODO Revisit the `maze_visit` function and rewrite to avoid recursion depth.
+
+Source: [file:src/main.c::maze_visit]
+
+Rewrite as an iterative procedure, or limit recursion depth as another
+potential base case. Ensure that all cells still get visited.
