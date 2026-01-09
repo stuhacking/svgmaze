@@ -68,6 +68,7 @@ typedef struct {
 } pt;
 
 struct main_opts {
+    u64 random_seed;
     u32 columns;
     u32 rows;
 
@@ -75,6 +76,7 @@ struct main_opts {
     u32 pen_radius;
 
     const char *fg_color;
+    const char *output;
 };
 
 
@@ -276,23 +278,124 @@ void draw_svg_maze(grid *grid, struct main_opts *opts) {
 
 /* --- PROGRAM --- */
 
-int main(void) {
-    pcg32_srand(&srng, PCG32_INITSTATE);
+u64 strhash(const char *const str) {
+    u64 hash = 57;
 
+    for (u32 k = 0; str[k] != '\0'; ++k) {
+        hash = 37 * hash + str[k];
+    }
+
+    return hash;
+}
+
+int main(int argc, char *argv[]) {
+
+    /* Option Defaults */
     struct main_opts opts = {
-        .columns = 16,
+        .random_seed = PCG32_INITSTATE,
+        .columns = 10,
         .rows = 10,
 
-        .corridor_width = 16,
-        .pen_radius = 2,
-        .fg_color = "blue",
+        .corridor_width = 10,
+        .pen_radius = 1,
+        .fg_color = "black",
+        .output = "ascii",
     };
 
-    grid *maze = generate_maze(16, 10);
-    grid_print(maze, "#", " ");
+    /* Process arguments: */
+    u8 args = 1;
+    for (int k = 1; args && (k < argc); ++k) {
+        const char *arg = argv[k];
 
-    draw_svg_maze(maze, &opts);
+        if (*arg++ != '-')
+            goto usage;
+
+        switch (*arg++) {
+        case 'r':              /* Random Number Seed.  */
+            if (!*arg)
+                goto usage;
+
+            opts.random_seed = strhash(arg);
+            continue;
+
+        case 'w':              /* Set Width  */
+            if (!*arg)
+                goto usage;
+
+            opts.columns = (u32)strtoul(arg, NULL, 10);
+            continue;
+
+        case 'h':              /* Set Height  */
+            if (!*arg)
+                goto usage;
+
+            opts.rows = (u32)strtoul(arg, NULL, 10);
+            continue;
+
+        case 'c':              /* Set Corridor width (SVG output) */
+            if (!*arg)
+                goto usage;
+
+            opts.corridor_width = (u32)strtoul(arg, NULL, 10);
+            continue;
+
+        case 'p':              /* Set Pen radius (SVG output)  */
+            if (!*arg)
+                goto usage;
+
+            opts.pen_radius = (u32)strtoul(arg, NULL, 10);
+            continue;
+
+        case 'o':              /* Set Output  */
+            if (!*arg)
+                goto usage;
+
+            opts.output = arg;
+            continue;
+
+        case 'f':              /* Set Foreground Color (CSS Color string)  */
+            if (!*arg)
+                goto usage;
+
+            opts.fg_color = arg;
+            continue;
+
+        case '-':              /* End of arguments.    */
+            argv[k] = argv[0];
+            argc = argc - k;
+            argv = argv + k;
+            args = 0;
+            break;
+
+        case 'v':              /* Show version and exit.      */
+            puts("svgmaze v0.0.1");
+            return 0;
+
+        default:
+ usage:
+            puts("svgmaze Options:");
+            puts("  -v       - Show version and exit");
+            puts("  -w       - Set maze width (columns)");
+            puts("  -h       - Set maze height (rows)");
+            puts("  -r       - Set random seed");
+            puts("  -o<fmt>  - Set output format (svg|ascii)");
+            return EXIT_FAILURE;
+        }
+
+        if (*arg)
+            goto usage;
+    }
+
+    pcg32_srand(&srng, opts.random_seed);
+
+    grid *maze = generate_maze(opts.columns, opts.rows);
+
+    if (0 == strcmp("svg", opts.output)) {
+        draw_svg_maze(maze, &opts);
+    } else {
+        grid_print(maze, "#", " ");
+    }
+
     grid_free(maze);
-
     return 0;
 }
