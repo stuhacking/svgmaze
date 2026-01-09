@@ -293,10 +293,10 @@ int main(int argc, char *argv[]) {
     /* Option Defaults */
     struct main_opts opts = {
         .random_seed = PCG32_INITSTATE,
-        .columns = 10,
-        .rows = 10,
+        .columns = 8,
+        .rows = 8,
 
-        .corridor_width = 10,
+        .corridor_width = 5,
         .pen_radius = 1,
         .fg_color = "black",
         .output = "ascii",
