@@ -119,9 +119,9 @@ void grid_free(grid *grid) {
 void grid_print(grid *grid, const char *fg, const char *bg) {
     for (u32 y = 0, y_ = grid->rows; y < y_; ++y) {
         for (u32 x = 0, x_ = grid->columns; x < x_; ++x) {
-            fprintf(stderr, "%s", (grid->cells[y * x_ + x]) ? fg : bg);
+            printf("%s", (grid->cells[y * x_ + x]) ? fg : bg);
         }
-        fprintf(stderr, "\n");
+        printf("\n");
     }
 }
 
