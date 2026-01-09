@@ -11,7 +11,12 @@ svgmaze -rexample2 -w16 -h16 -c8 -f'#398AA2' -osvg > example2.svg
 svgmaze -rexample3 -w32 -h32 -c4 -f'#B8B5BE' -osvg > example3.svg
 ```
 
-| ![Example1](img/example1.svg) | ![Example2](img/example2.svg) | ![Example3](img/example3.svg) |
+<p float='left'>
+<img src='img/example1.svg' title='Example1' width='256' height='256'>
+<img src='img/example2.svg' title='Example2' width='256' height='256'>
+<img src='img/example3.svg' title='Example3' width='256' height='256'>
+</p>
+
 
 ## Usage:
 
