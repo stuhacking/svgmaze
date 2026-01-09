@@ -207,7 +207,7 @@ grid* generate_maze(u32 columns, u32 rows) {
 void draw_svg_maze(grid *grid, struct main_opts *opts) {
     /* Calculate total width and height: */
     u32 total_width = (grid->columns / 2) * opts->corridor_width;
-    u32 total_height = (grid->columns / 2) * opts->corridor_width;
+    u32 total_height = (grid->rows / 2) * opts->corridor_width;
 
     /* SVG Preamble */
     printf("<?xml version='1.0' standalone='no'?>\n");
