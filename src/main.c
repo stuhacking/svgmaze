@@ -61,12 +61,82 @@ void pcg32_srand(struct pcg32_state *rng, u64 state) {
 }
 
 
+/* --- GEOMETRY --- */
+
+typedef struct {
+    int x, y;
+} pt;
+
+struct main_opts {
+    u32 columns;
+    u32 rows;
+
+    u32 corridor_width;
+    u32 pen_radius;
+
+    const char *fg_color;
+};
+
+
+/* --- GRIDS --- */
+
+typedef struct {
+    u32 columns;
+    u32 rows;
+    u8 *cells;
+} grid;
+
+grid* grid_alloc_init(const u32 columns, const u32 rows, const u8 initval) {
+    grid *g = malloc(sizeof(grid));
+    if (g == NULL) {
+        fprintf(stderr, "Unable to allocate memory for grid struct\n");
+        return NULL;
+    }
+
+    g->cells = malloc(sizeof(u8) * columns * rows);
+    if (g->cells == NULL) {
+        fprintf(stderr, "Unable to allocate memory for %ux%u grid cells\n", columns, rows);
+        return NULL;
+    }
+
+    g->columns = columns;
+    g->rows = rows;
+
+    memset(g->cells, initval, rows * columns);
+    return g;
+}
+
+void grid_free(grid *grid) {
+    if (grid != NULL) {
+        free(grid->cells);
+        free(grid);
+    }
+}
+
+/* Temp function for testing: print fg char for 1, bg char for 0. */
+void grid_print(grid *grid, const char *fg, const char *bg) {
+    for (u32 y = 0, y_ = grid->rows; y < y_; ++y) {
+        for (u32 x = 0, x_ = grid->columns; x < x_; ++x) {
+            fprintf(stderr, "%s", (grid->cells[y * x_ + x]) ? fg : bg);
+        }
+        fprintf(stderr, "\n");
+    }
+}
+
+
 /* --- PROGRAM --- */
 
 int main(void) {
     pcg32_srand(&srng, PCG32_INITSTATE);
 
-    printf("I don't do much, yet...\n");
+    grid *g1 = grid_alloc_init(10, 5, 1);
+    grid *g2 = grid_alloc_init(10, 5, 0);
+
+    grid_print(g1, "+", "-");
+    grid_print(g2, "+", "-");
+
+    grid_free(g2);
+    grid_free(g1);
 
     return 0;
 }
