@@ -1,0 +1,12 @@
+#+TITLE:  SVG Maze Generator
+#+AUTHOR: Stu
+#+EMAIL:  stuhacking@gmail.com
+#+DATE:   [2026-01-09 11:22]
+
+* Notes
+
+This is a simple maze generator that outputs the result to a static SVG image.
+
+* Tasks
+
+* Issues
