@@ -124,19 +124,92 @@ void grid_print(grid *grid, const char *fg, const char *bg) {
 }
 
 
+/* --- MAZE GENERATOR --- */
+
+/**
+ * Recursively wander around the grid at random, stopping at any cells that is
+ * already visited or out of bounds.
+ *
+ * For any newly visited cell whose coordinate is given by `curr`: Mark it
+ * visited, then carve out the corresponding space from `maze_grid` as well as
+ * the cell connecting it to the space we came from, given by `prev`.
+ *
+ * The walk finishes once all cells are visited.
+ */
+void maze_visit(grid *walk_grid, grid *maze_grid, pt curr, pt prev) {
+    /* OOB check, base case */
+    if (curr.x < 0 || curr.x >= (int)walk_grid->columns ||
+        curr.y < 0 || curr.y >= (int)walk_grid->rows) {
+        return;
+    }
+    /* Already visited, base case */
+    if (walk_grid->cells[curr.y * walk_grid->columns + curr.x]) {
+        return;
+    }
+
+    /* Mark seen */
+    walk_grid->cells[curr.y * walk_grid->columns + curr.x] = 1;
+
+    /* Carve from this cell to where we just came from in the maze */
+    pt dir = {prev.x - curr.x, prev.y - curr.y};
+    pt maze_curr = {curr.x * 2 + 1, curr.y * 2 + 1};
+    pt maze_prev = {maze_curr.x + dir.x, maze_curr.y + dir.y};
+    maze_grid->cells[maze_curr.y * maze_grid->columns + maze_curr.x] = 0;
+    maze_grid->cells[maze_prev.y * maze_grid->columns + maze_prev.x] = 0;
+
+    /* Now do the same for neighbouring cells in a shuffled order */
+    pt directions[4] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    u8 done[4] = {0, 0, 0, 0};
+    while (!done[0] || !done[1] || !done[2] || !done[3]) {
+        u32 r = pcg32_nextuint(&srng) % 4; /* @fixme Not great shuffle */
+        while (done[r]) {
+            r = pcg32_nextuint(&srng) % 4;
+        }
+        done[r] = 1;
+        dir = directions[r];
+        maze_visit(walk_grid, maze_grid, (pt){curr.x + dir.x, curr.y + dir.y}, curr);
+    }
+}
+
+/**
+ * Initiallize a grid that can hold a generated maze of `columns` x `rows`
+ * corridors. (N.B: That is columns x rows walkable space; including walls the
+ * actual grid size will be 2n + 1 in each dimension.)
+ *
+ * This returns a pointer to a newly generated maze grid. It is the
+ * responsibility of the caller to free the grid when done.
+ *
+ * @return Grid* Pointer to a grid containing the generated maze.
+ */
+grid* generate_maze(u32 columns, u32 rows) {
+    /* Initialize two boolean grids: One to track the progress of the random
+     * walk, the other to carve out the paths the walker has visited level
+     * walls behind.
+     */
+    grid *walk_grid = grid_alloc_init(columns, rows, 0);
+    grid *maze_grid = grid_alloc_init(columns * 2 + 1, rows * 2 + 1, 1);
+
+    /* Start at a random point: */
+    pt start = {pcg32_nextuint(&srng) % columns, pcg32_nextuint(&srng) % rows};
+
+    maze_visit(walk_grid, maze_grid, start, start);
+
+    /* Done with the random walk. */
+    grid_free(walk_grid);
+    return maze_grid;
+}
+
+
 /* --- PROGRAM --- */
 
 int main(void) {
     pcg32_srand(&srng, PCG32_INITSTATE);
 
-    grid *g1 = grid_alloc_init(10, 5, 1);
-    grid *g2 = grid_alloc_init(10, 5, 0);
+    grid *maze = generate_maze(16, 10);
 
-    grid_print(g1, "+", "-");
-    grid_print(g2, "+", "-");
+    grid_print(maze, "#", " ");
 
-    grid_free(g2);
-    grid_free(g1);
+    grid_free(maze);
 
     return 0;
 }
