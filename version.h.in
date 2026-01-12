@@ -1,0 +1,31 @@
+/**
+ * @file version.h.in
+ * @brief Capture project version and build information.
+ *
+ * CMake uses this file to generate some build boilerplate
+ * from the version control information and CMake variables.
+ */
+#ifndef __VERSION_H
+#define __VERSION_H
+
+/** Project Name */
+#define APPMETA_NAME        "@PROJECT_NAME@"
+/** Project Version */
+#define APPMETA_VERSION     "@PROJECT_VERSION@"
+
+/**
+ * Git Build Info:
+ * Most recent commit SHA + -dirty label if build workspace
+ * has changes.
+ */
+#define APPMETA_GIT_SHA1    "g@GIT_SHA1@"
+/** Date of most recent commit */
+#define APPMETA_GIT_DATE    "@GIT_DATE@"
+/** Subject of most recent commit */
+#define APPMETA_GIT_SUBJECT "@GIT_SUBJECT@"
+/** Build date */
+#define APPMETA_BUILD_DATE  "@BUILD_DATE@"
+
+#define APPMETA_BUILDVER APPMETA_VERSION "-" APPMETA_GIT_SHA1
+
+#endif /* __VERSION_H */

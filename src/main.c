@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "version.h"
+
 typedef uint8_t u8;
 typedef uint32_t u32;
 typedef uint64_t u64;
@@ -368,12 +370,16 @@ int main(int argc, char *argv[]) {
             break;
 
         case 'v':              /* Show version and exit.      */
-            puts("svgmaze v0.0.1");
+            puts(APPMETA_NAME " v" APPMETA_VERSION);
+#ifndef NDEBUG
+            puts("Build: " APPMETA_BUILD_DATE);
+            puts("SCM: ("APPMETA_GIT_SHA1 ") " APPMETA_GIT_SUBJECT);
+#endif /* NDEBUG */
             return 0;
 
         default:
  usage:
-            puts("svgmaze Options:");
+            puts(APPMETA_NAME " Options:");
             puts("  -v       - Show version and exit");
             puts("  -w       - Set maze width (columns)");
             puts("  -h       - Set maze height (rows)");
