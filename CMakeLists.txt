@@ -1,4 +1,4 @@
-## SVG Maze Generator
+### SVG Maze Generator
 cmake_minimum_required(VERSION 3.16)
 
 project(svgmaze
@@ -50,7 +50,15 @@ add_custom_target(regenerate_version_header ALL
   COMMENT "Touching version.h"
 )
 
-## Build: svgmaze
-add_executable(svgmaze src/main.c)
+## Executable: svgmaze
+set(SOURCES
+  src/strings.c
+  src/prng.c
+  src/grid.c
+  src/maze.c
+  src/main.c
+)
+
+add_executable(svgmaze ${SOURCES})
 add_dependencies(svgmaze regenerate_version_header)
 target_include_directories(svgmaze PRIVATE "${PROJECT_BINARY_DIR}/include")
