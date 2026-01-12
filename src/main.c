@@ -381,10 +381,13 @@ int main(int argc, char *argv[]) {
  usage:
             puts(APPMETA_NAME " Options:");
             puts("  -v       - Show version and exit");
-            puts("  -w       - Set maze width (columns)");
-            puts("  -h       - Set maze height (rows)");
-            puts("  -r       - Set random seed");
-            puts("  -o<fmt>  - Set output format (svg|ascii)");
+            puts("  -w<n>    - Set maze width (columns)");
+            puts("  -h<n>    - Set maze height (rows)");
+            puts("  -r<s>    - Set random seed (string)");
+            puts("  -o<fmt>  - Set output format (svg|ascii, default ASCII)");
+            puts("  -c<n>    - Set corridor width (pixels, SVG output)");
+            puts("  -p<n>    - Set pen radius (pixels, SVG output)");
+            puts("  -f<s>    - Set foreground colour (CSS Color3 string)");
             return EXIT_FAILURE;
         }
 
