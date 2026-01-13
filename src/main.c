@@ -32,6 +32,7 @@
 #include "grid.h"
 #include "maze.h"
 
+#define MIN(a,b) (((a) < (b)) ? (a) : (b))
 
 struct main_opts {
     u64 random_seed;
@@ -81,6 +82,7 @@ int main(int argc, char *argv[]) {
                 goto usage;
 
             opts.columns = (u32)strtoul(arg, NULL, 10);
+            opts.rows = MIN(300, opts.columns);
             continue;
 
         case 'h':              /* Set Height  */
@@ -88,6 +90,7 @@ int main(int argc, char *argv[]) {
                 goto usage;
 
             opts.rows = (u32)strtoul(arg, NULL, 10);
+            opts.rows = MIN(300, opts.rows);
             continue;
 
         case 'c':              /* Set Corridor width (SVG output) */
