@@ -95,9 +95,9 @@ void maze_draw_svg(grid *maze, struct svg_opts *opts) {
 
     /* SVG Preamble */
     printf("<?xml version='1.0' standalone='no'?>\n");
-    printf("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 %u %u'>\n",
+    printf("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 %u %u'>",
            total_width, total_height);
-    printf("<g stroke-linecap='round' stroke-width='%u' stroke='%s'>\n",
+    printf("<g stroke-linecap='round' stroke-width='%u' stroke='%s'>",
            opts->pen_radius, opts->fg_color);
 
     u32 ypos = 0;
@@ -113,7 +113,7 @@ void maze_draw_svg(grid *maze, struct svg_opts *opts) {
             }
 
             if (x2 > x1) {
-                printf(" <line x1='%u' y1='%u' x2='%u' y2='%u'/>\n",
+                printf("<line x1='%u' y1='%u' x2='%u' y2='%u'/>",
                        x1, ypos, x2, ypos);
             }
 
@@ -140,7 +140,7 @@ void maze_draw_svg(grid *maze, struct svg_opts *opts) {
             }
 
             if (y2 > y1) {
-                printf(" <line x1='%u' y1='%u' x2='%u' y2='%u'/>\n",
+                printf("<line x1='%u' y1='%u' x2='%u' y2='%u'/>",
                        xpos, y1, xpos, y2);
             }
 
@@ -155,6 +155,6 @@ void maze_draw_svg(grid *maze, struct svg_opts *opts) {
     }
 
     /* SVG Close */
-    printf("</g>\n");
+    printf("</g>");
     printf("</svg>\n");
 }
