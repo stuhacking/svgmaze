@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
                 goto usage;
 
             opts.columns = (u32)strtoul(arg, NULL, 10);
-            opts.rows = MIN(300, opts.columns);
+            opts.columns = MIN(300, opts.columns);
             continue;
 
         case 'h':              /* Set Height  */
