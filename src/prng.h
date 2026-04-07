@@ -1,5 +1,9 @@
 /**
+ * @file
  * @brief Pseudo-random number generator
+ *
+ * SPDX-FileCopyrightText: 2014 M.E. O'Neill
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Expose a simple interface for pseudorandom numbers.
  */

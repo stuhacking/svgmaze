@@ -1,4 +1,8 @@
-/** @brief String functions implementation */
+/**
+ * @brief String functions implementation
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 #include "strings.h"
 
 

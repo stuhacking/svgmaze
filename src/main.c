@@ -1,6 +1,9 @@
 /**
  * @brief Maze Generator with SVG output main file.
  *
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
  * For simple rectangular maze generation, we will initially generate
  * a grid that is 2n+1 the dimensions of width x height. Each even row or
  * column (zero indexed) represents where the walls will be, and the odds are

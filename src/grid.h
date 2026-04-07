@@ -1,5 +1,9 @@
 /**
+ * @file
  * @brief Grid functions
+ *
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 #ifndef GRID_H
 #define GRID_H

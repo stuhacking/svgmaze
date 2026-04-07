@@ -1,5 +1,9 @@
 /**
+ * @file
  * @brief Maze generator
+ *
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 #ifndef MAZE_H
 #define MAZE_H

@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # SVG Maze Generator
 
 This program generates pseudorandom rectangular mazes and outputs the result

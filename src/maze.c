@@ -1,4 +1,8 @@
-/** @brief Maze generator implementation */
+/**
+ * @brief Maze generator implementation
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 #include "maze.h"
 
 #include "prng.h"

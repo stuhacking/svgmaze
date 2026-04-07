@@ -1,4 +1,8 @@
-/** @brief PRNG implementation */
+/**
+ * @brief PRNG implementation
+ * SPDX-FileCopyrightText: 2014 M.E. O'Neill
+ * SPDX-License-Identifier: Apache-2.0
+ */
 #include "prng.h"
 
 /* Internally, the PRNG is based on the minimal PCG32 implementation: */

@@ -1,4 +1,8 @@
-/** @brief Grid Implementation */
+/**
+ * @brief Grid Implementation
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 #include "grid.h"
 
 #include <stdlib.h>

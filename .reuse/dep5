@@ -1,0 +1,5 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+
+Files: **/*.svg
+Copyright: 2026 Stu Hacking <stuhacking@gmail.com>
+License: CC0-1.0

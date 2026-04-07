@@ -2,6 +2,9 @@
  * @file version.h.in
  * @brief Capture project version and build information.
  *
+ * SPDX-FileCopyrightText: 2026 Stu Hacking <stuhacking@gmail.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
  * CMake uses this file to generate some build boilerplate
  * from the version control information and CMake variables.
  */
